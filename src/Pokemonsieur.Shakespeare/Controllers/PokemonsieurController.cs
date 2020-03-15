@@ -33,7 +33,10 @@ namespace Pokemonsieur.Shakespeare.Controllers
         [HttpGet("pokemonName")]
         public PokemonShakespeare Get(string pokemonName)
         {
-            throw new NotImplementedException();
+            return new PokemonShakespeare {
+                Description = "Pikachu is an electric-type pokémon did introduce in generation i. Pikachu is famous for being the most well-known and recognizable pokémon.",
+                Name = pokemonName
+            };
         }
     }
 }

@@ -16,14 +16,17 @@ namespace Pokemonsieur.Shakespeare.Tests
             _pokemonsieurController = new PokemonsieurController(_mockLogger.Object);
         }
 
-        [Fact]
-        public void IsTranslation_Success()
+        [Theory]
+        [InlineData("pikachu", "Pikachu is an electric-type pokémon did introduce in generation i. Pikachu is famous for being the most well-known and recognizable pokémon.")]
+        public void IsTranslation_Success(string pokemonName, string expectedTranslation)
         {
-            //Given
 
-            //When
-
-            //Then
+            var output = _pokemonsieurController.Get(pokemonName);
+            
+            Assert.Equal(expectedTranslation, output.Description);
+            Assert.Equal(pokemonName, output.Name);
         }
+
+
     }
 }
