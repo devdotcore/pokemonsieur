@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Pokemonsieur.Shakespeare/bin/Debug/netcoreapp3.0/Pokemonsieur.Shakespeare.dll",
+            "program": "${workspaceFolder}/src/Pokemonsieur.Shakespeare/bin/Debug/netcoreapp3.1/Pokemonsieur.Shakespeare.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Pokemonsieur.Shakespeare",
             "stopAtEntry": false,
