@@ -9,7 +9,6 @@ namespace Pokemonsieur.Shakespeare.Tests
 {
     public class TranslationService_IsValid
     {
-        private const string _mockText = "pokemon pika pika";
 
         private ITranslationService _pokemonService;
 
@@ -33,23 +32,23 @@ namespace Pokemonsieur.Shakespeare.Tests
         }
 
         [Fact]
-        public async void IsValid_Text_ReturnSuccess()
+        public async void Valid_Text_ReturnSuccess()
         {
             //Arrange
             _mockClient.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<TranslationQueryParams>())).ReturnsAsync(new Translation
             {
                 Contents = new Contents
                 {
-                    Text = _mockText
+                    Text = TestData._mockDetails
                 }
             });
             _pokemonService = new TranslationService(_mockLogger.Object, _mockOptions.Object, _mockClient.Object);
 
             //Act
-            var output = await _pokemonService.GetTranslationAsync(_mockText);
+            var output = await _pokemonService.GetTranslationAsync(TestData._mockDetails);
 
             //Assert
-            Assert.Equal(_mockText, output.Contents.Text);
+            Assert.Equal(TestData._mockDetails, output.Contents.Text);
             Assert.Null(output.Error);
         }
 

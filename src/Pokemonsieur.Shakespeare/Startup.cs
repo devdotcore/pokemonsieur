@@ -19,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using PokeApiNet;
 using Pokemonsieur.Shakespeare.Model;
 using Pokemonsieur.Shakespeare.Service;
+using System.Text.Json;
 
 
 namespace Pokemonsieur.Shakespeare
@@ -42,7 +43,10 @@ namespace Pokemonsieur.Shakespeare
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            }); 
 
             services.AddSwaggerGen(c =>
             {
@@ -60,7 +64,8 @@ namespace Pokemonsieur.Shakespeare
 
             services.Configure<AppSettings>(Configuration)
                 .AddScoped<ITranslationService, TranslationService>()
-                .AddScoped<IPokemonService, PokemonService>();
+                .AddScoped<IPokemonService, PokemonService>()
+                .AddScoped<IPokemonsieurService, PokemonsieurService>();
 
             services.AddHttpClient(nameof(PokeApi), c =>
             {
@@ -71,7 +76,7 @@ namespace Pokemonsieur.Shakespeare
             services.AddHttpClient(nameof(TranslationApi), c =>
             {
                 c.BaseAddress = new Uri(Configuration.GetValue<string>($"{nameof(TranslationApi)}:{nameof(TranslationApi.Url)}"));
-            }).AddTypedClient(c => Refit.RestService.For<IRestApiClient<Translation, TranslationQueryParams, string>>(c)); 
+            }).AddTypedClient(c => Refit.RestService.For<IRestApiClient<Translation, TranslationQueryParams, string>>(c));
 
         }
 
@@ -84,7 +89,7 @@ namespace Pokemonsieur.Shakespeare
             }
 
             app.UseSwagger();
-    
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pokemonsieur API V1");

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PokeApiNet;
@@ -61,14 +62,14 @@ namespace Pokemonsieur.Shakespeare.Service
 
                 if (!(species is null) && species.FlavorTextEntries?.Count > 0)
                 {
-                    _logger.LogInformation("{methodName} call successfully returned species data", nameof(GetPokemonDetailsAsync));
+                    _logger.LogInformation("{methodName} called successfully, returned species data", nameof(GetPokemonDetailsAsync));
 
                     PokemonSpeciesFlavorTexts flavorTexts = species.FlavorTextEntries.Where(x => x.Language.Name == _appSettings.PokeApi.DefaultLanguage).FirstOrDefault();
 
                     if (flavorTexts is null || string.IsNullOrEmpty(flavorTexts?.FlavorText))
                     {
                         _logger.LogError("Error in {methodName} - Empty Flavor text for language {lang}", nameof(GetPokemonDetailsAsync), _appSettings.PokeApi.DefaultLanguage);
-                        return GetErrorResponse(500, "API Response Error");
+                        return GetErrorResponse(StatusCodes.Status500InternalServerError, "API Response Error");
                     }
 
                     return new PokemonDetails
@@ -80,23 +81,23 @@ namespace Pokemonsieur.Shakespeare.Service
                 else
                 {
                     _logger.LogError("Error in {methodName} - Null/Empty response from PokeAPI", nameof(GetPokemonDetailsAsync));
-                    return GetErrorResponse(500, "API Response Error");
+                    return GetErrorResponse(StatusCodes.Status500InternalServerError, "API Response Error");
                 }
             }
             catch (ValidationApiException validationApiException)
             {
-                _logger.LogError(validationApiException, "HttpRequestException occurred while calling PokeApi - {Details}", validationApiException.Message);
+                _logger.LogError(validationApiException, "HttpRequestException occurred while calling PokeApi - {code} {Details}", (int)validationApiException.StatusCode, validationApiException.Message);
                 return GetErrorResponse((int)validationApiException.StatusCode, validationApiException?.Message);
             }
             catch (ApiException exception)
             {
-                _logger.LogError(exception, "Exception occurred while calling PokeApi - {Details}", exception?.Message);
-                return GetErrorResponse(500, exception?.Message);
+                _logger.LogError(exception, "Exception occurred while calling PokeApi - {code} {Details}", (int)exception.StatusCode, exception?.Message);
+                return GetErrorResponse((int)exception.StatusCode, exception?.Message);
             }
         }
 
         /// <summary>
-        /// Get Error response for PokeMone Details
+        /// Get Error response for pokemon Details
         /// </summary>
         /// <param name="code">Error Code</param>
         /// <param name="message">Error Message</param>

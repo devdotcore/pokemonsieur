@@ -13,9 +13,6 @@ namespace Pokemonsieur.Shakespeare.Tests
 {
     public class PokemonService_IsValid
     {
-        private const string _testPokemonName = "pokemonName";
-        private const string _testPokemonDescription = "pokemonName";
-
         private IPokemonService _pokemonService;
 
         private readonly Mock<ILogger<PokemonService>> _mockLogger = new Mock<ILogger<PokemonService>>();
@@ -38,15 +35,15 @@ namespace Pokemonsieur.Shakespeare.Tests
         }
 
         [Fact]
-        public async void IsValid_PokemonName_ReturnSuccess()
+        public async void Valid_PokemonName_ReturnSuccess()
         {
             //Arrange
             _mockClient.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<PokemonQueryParams>())).ReturnsAsync(new PokemonSpecies
             {
-                Name = _testPokemonName,
+                Name = TestData._mockName,
                 FlavorTextEntries = new List<PokemonSpeciesFlavorTexts> {
                     new PokemonSpeciesFlavorTexts {
-                        FlavorText = _testPokemonDescription,
+                        FlavorText = TestData._mockDetails,
                         Language = new NamedApiResource<Language> { Name = "en" }
                     }
                 }
@@ -54,27 +51,27 @@ namespace Pokemonsieur.Shakespeare.Tests
             _pokemonService = new PokemonService(_mockLogger.Object, _mockClient.Object, _mockOptions.Object);
 
             //Act
-            var output = await _pokemonService.GetPokemonDetailsAsync(_testPokemonName);
+            var output = await _pokemonService.GetPokemonDetailsAsync(TestData._mockName);
 
             //Assert
-            Assert.Equal(_testPokemonName, output.Name);
-            Assert.Equal(_testPokemonDescription, output.Description);
+            Assert.Equal(TestData._mockName, output.Name);
+            Assert.Equal(TestData._mockDetails, output.Description);
             Assert.Null(output.Error);
         }
 
         [Fact]
-        public async void IsValid_PokemonName_ReturnsErrorNullSpecies()
+        public async void Valid_PokemonName_ReturnsErrorNullSpecies()
         {
             //Arrange
             _mockClient.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<PokemonQueryParams>())).ReturnsAsync(new PokemonSpecies
             {
-                Name = _testPokemonName,
+                Name = TestData._mockName,
                 FlavorTextEntries = null
             });
             _pokemonService = new PokemonService(_mockLogger.Object, _mockClient.Object, _mockOptions.Object);
 
             //Act
-            var output = await _pokemonService.GetPokemonDetailsAsync(_testPokemonName);
+            var output = await _pokemonService.GetPokemonDetailsAsync(TestData._mockName);
 
             //Assert
             Assert.NotNull(output.Error);
@@ -82,12 +79,12 @@ namespace Pokemonsieur.Shakespeare.Tests
         }
 
         [Fact]
-        public async void IsValid_PokemonName_ReturnsErrorLangugaeMismatch()
+        public async void Valid_PokemonName_ReturnsErrorLangugaeMismatch()
         {
             //Arrange
             _mockClient.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<PokemonQueryParams>())).ReturnsAsync(new PokemonSpecies
             {
-                Name = _testPokemonName,
+                Name = TestData._mockName,
                 FlavorTextEntries = new List<PokemonSpeciesFlavorTexts> {
                     new PokemonSpeciesFlavorTexts {
                         Language = new NamedApiResource<Language> {
@@ -99,7 +96,7 @@ namespace Pokemonsieur.Shakespeare.Tests
             _pokemonService = new PokemonService(_mockLogger.Object, _mockClient.Object, _mockOptions.Object);
 
             //Act
-            var output = await _pokemonService.GetPokemonDetailsAsync(_testPokemonName);
+            var output = await _pokemonService.GetPokemonDetailsAsync(TestData._mockName);
 
             //Assert
             Assert.NotNull(output.Error);

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Pokemonsieur.Shakespeare.Model;
@@ -50,39 +51,45 @@ namespace Pokemonsieur.Shakespeare.Service
         {
             try
             {
+                _logger.LogDebug("Calling {methodName}, Getting translation for {text}", nameof(GetTranslationAsync), text);
+
                 TranslationQueryParams queryParams = new TranslationQueryParams
                 {
                     Query = text
                 };
 
-                var response = await _client.Get(_appSettings.TranslationApi.Type, queryParams);
+                Translation response = await _client.Get(_appSettings.TranslationApi.Type, queryParams);
+
+                _logger.LogInformation("Translation Successful, Returning data");
+
                 return response;
             }
             catch (ValidationApiException validationApiException)
             {
-                _logger.LogError(validationApiException, "HttpRequestException occurred while calling PokeApi - {Details}", validationApiException.Message);
-                return new Translation
-                {
-                    Error = new Error
-                    {
-                        Code = (int)validationApiException.StatusCode,
-                        Message = validationApiException.Message
-                    }
-                };
+                _logger.LogError(validationApiException, "HttpRequestException occurred while calling translation api - {code} {Details}", (int)validationApiException.StatusCode, validationApiException.Message);
+                return GetErrorResponse((int)validationApiException.StatusCode, validationApiException?.Message);
             }
             catch (ApiException exception)
             {
-                _logger.LogError(exception, "Exception occurred while calling PokeApi - {Details}", exception.Message);
-                return new Translation
-                {
-                    Error = new Error
-                    {
-                        Code = 500,
-                        Message = "System Error"
-                    }
-                };
+                _logger.LogError(exception, "Exception occurred while calling translation api - {code} {Details}", (int)exception.StatusCode, exception.Message);
+                return GetErrorResponse((int)exception.StatusCode, "Api Error");
 
             }
         }
+
+        /// <summary>
+        /// Get Error response for translation service
+        /// </summary>
+        /// <param name="code">Error Code</param>
+        /// <param name="message">Error Message</param>
+        /// <returns></returns>
+        private Translation GetErrorResponse(int code, string message) => new Translation
+        {
+            Error = new Error
+            {
+                Code = code,
+                Message = message
+            }
+        };
     }
 }

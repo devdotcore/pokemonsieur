@@ -1,25 +1,22 @@
-using Refit;
+﻿using System.Text.Json.Serialization;
 
 namespace Pokemonsieur.Shakespeare.Model
 {
-    /// <summary>
-    /// Pokemon Details - Populated via pokeapi.co call
-    /// </summary>
-    public class PokemonDetails : BaseModel
+
+    public class Pokemonsieur : BaseModel
     {
         /// <summary>
         /// Pokemon Name
         /// </summary>
         /// <value></value>
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Pokemon Description
         /// </summary>
         /// <value></value>
+        [JsonPropertyName("description")]
         public string Description { get; set; }
-
     }
-
-    public class PokemonQueryParams {}
 }

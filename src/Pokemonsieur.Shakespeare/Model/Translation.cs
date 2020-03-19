@@ -2,7 +2,7 @@ using Refit;
 
 namespace Pokemonsieur.Shakespeare.Model
 {
-    public class Translation
+    public class Translation : BaseModel
     {
         /// <summary>
         ///  Contents 
@@ -10,11 +10,6 @@ namespace Pokemonsieur.Shakespeare.Model
         /// <value></value>
         public Contents Contents { get; set; }
 
-        /// <summary>
-        /// Error Object
-        /// </summary>
-        /// <value></value>
-        public Error Error { get; set; }
     }
 
     public class Contents
