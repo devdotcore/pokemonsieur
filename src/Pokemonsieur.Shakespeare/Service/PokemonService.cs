@@ -58,7 +58,7 @@ namespace Pokemonsieur.Shakespeare.Service
             {
                 _logger.LogDebug("Calling {methodName}, Getting details for {pokemon}", nameof(GetPokemonDetailsAsync), pokemonName);
 
-                PokemonSpecies species = await _client.Get($"{_appSettings.PokeApi.Key}/{pokemonName}", new PokemonQueryParams());
+                PokemonSpecies species = await _client.Get($"{_appSettings.PokeApi.Key}/{pokemonName.ToLower()}", new PokemonQueryParams());
 
                 if (!(species is null) && species.FlavorTextEntries?.Count > 0)
                 {
