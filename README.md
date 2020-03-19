@@ -1,35 +1,63 @@
-## Pokemonsieur - English Version
+## Pokemonsieur [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://app.circleci.com/pipelines/github/devdotcore/pokemonsieur?branch=master)
 
-You can use the [editor on GitHub](https://github.com/devdotcore/pokemonsieur/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+![Last Build](https://github.com/devdotcore/pokemonsieur/workflows/.NET%20Core/badge.svg?branch=develop)
+![Docker Build](https://github.com/devdotcore/pokemonsieur/workflows/Docker%20Build/badge.svg)
 
-### API
+The purpose of this API is to get the pokemon details from [Pokemon Api](https://pokeapi.co/) by passing the valid pokemon name and translate its description to Shakespearean using [Fun Translation Api](https://funtranslations.com/shakespeare).
 
-This API returns Shakespearian version of a Pokemon name
+**This API uses [Swagger](https://swagger.io/), so you can test its endpoint easily via browser**
+
+### Try a pre-built version
+The lastest image for Pokemonsieur API is available on [Docker Hub](https://hub.docker.com/). You can follow the steps below f and test the API without cloning this repository.
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop) on your machine.
+2. Start docker desktop application, ensure its running properly.
+3. Get the latest image from of [Pokemonsieur](https://hub.docker.com/repository/docker/kuldeepbhakuni/pokemonsieur) from Docker Hub by running the following command.
+```markdown
+docker pull kuldeepbhakuni/pokemonsieur:latest
+```
+4. Start the container i.e. -
+```markdown
+docker run --rm -it -p 8080:5000 kuldeepbhakuni/pokemonsieur:latest
+```
+5. API should be up and running, access it locally on https://localhost:8080
+
+### Setup
+The following steps are for runnning the codebase locally on a Mac using Visual Studio Code, you find similar or better options online.
+
+1. Download and install [.Net Core 3.1.200](https://dotnet.microsoft.com/download/dotnet-core/3.1) SDK on your machine.
+2. Dowload this repo into a working directory and take latest from master branch
+```markdown
+git clone git@github.com:devdotcore/pokemonsieur.git
+```
+3. Open the project in [VS Code](https://code.visualstudio.com/) and build -
+```markdown
+dotnet build
+```
+4. Make sure all the test case are running -
+```markdown
+dotnet test
+```
+5. Start the project directly on VS Code or run the following command -
+```markdown
+dotnet run --project ./src/Pokemonsieur.Shakespeare/Pokemonsieur.Shakespeare.csproj
+```
+5. By default, the API will be available on https://localhost:5001
+
+### Docker Compose
+If you have [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on you machine, you can deploy the application locally using docker.
 
 ```markdown
-Syntax highlighted code block
+ docker build -t [IMAGE_NAME]:[TAG] .  
+```
+once build is complete, you can start the container -
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```markdown
+docker run --rm -it -p [PORT_NUMBER]:5000 [IMAGE_NAME]:[TAG]
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+API should be available locally -
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/devdotcore/pokemonsieur/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+```markdown
+https://localhost:[PORT_NUMBER]/
+```
