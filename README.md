@@ -1,4 +1,4 @@
-## Pokemonsieur [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://app.circleci.com/pipelines/github/devdotcore/pokemonsieur?branch=master)
+## Pokemonsieur [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://circleci.com/gh/devdotcore/pokemonsieur)
 
 ![Last Build](https://github.com/devdotcore/pokemonsieur/workflows/.NET%20Core/badge.svg?branch=develop)
 ![Docker Build](https://github.com/devdotcore/pokemonsieur/workflows/Docker%20Build/badge.svg)
