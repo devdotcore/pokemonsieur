@@ -1,14 +1,24 @@
-## Pokemonsieur [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://circleci.com/gh/devdotcore/pokemonsieur)
+## Pokemonsieur API [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://circleci.com/gh/devdotcore/pokemonsieur)
 
 ![Last Build](https://github.com/devdotcore/pokemonsieur/workflows/.NET%20Core/badge.svg?branch=develop)
 ![Docker Build](https://github.com/devdotcore/pokemonsieur/workflows/Docker%20Build/badge.svg)
 
-The purpose of this API is to get the pokemon details from [Pokemon Api](https://pokeapi.co/) by passing the valid pokemon name and translate its description to Shakespearean using [Fun Translation Api](https://funtranslations.com/shakespeare).
+The purpose of this API is to get the Shakespearean pokemon description. Pokemon details from are fetched from [Pokemon Api](https://pokeapi.co/) by passing a [Pokemon_Name] and translation of its description is done using [Fun Translation Api](https://funtranslations.com/shakespeare).
 
+```markdown
+GET /pokemon/{pokemonName}
+```
+
+```markdown
+{
+  "name": "pokemonName",
+  "description": "{translated description}",
+}
+```
 **This API uses [Swagger](https://swagger.io/), so you can test its endpoint easily via browser**
 
 ### Try a pre-built version
-The lastest image for Pokemonsieur API is available on [Docker Hub](https://hub.docker.com/). You can follow the steps below f and test the API without cloning this repository.
+The lastest image for Pokemonsieur API is available on [Docker Hub](https://hub.docker.com/). You can follow the steps below f and test the API locally.
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop) on your machine.
 2. Start docker desktop application, ensure its running properly.
@@ -44,7 +54,7 @@ dotnet run --project ./src/Pokemonsieur.Shakespeare/Pokemonsieur.Shakespeare.csp
 ```
 5. By default, the API will be available on https://localhost:5001
 
-### Docker Compose
+### Docker Build
 If you have [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on you machine, you can deploy the application locally using docker.
 
 ```markdown
