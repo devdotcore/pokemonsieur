@@ -1,7 +1,7 @@
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS builder  
 
-EXPOSE 8805:8443
+EXPOSE 80:8443
 EXPOSE 8443:8443
 EXPOSE 443:8443
 
@@ -34,5 +34,5 @@ RUN dotnet publish "./src/Pokemonsieur.Shakespeare/Pokemonsieur.Shakespeare.cspr
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 
 WORKDIR /publish  
 COPY --from=builder /publish .  
-ENV ASPNETCORE_URLS="http://0.0.0.0:8805"
+ENV ASPNETCORE_URLS="http://0.0.0.0:80"
 ENTRYPOINT ["dotnet", "Pokemonsieur.Shakespeare.dll"]
