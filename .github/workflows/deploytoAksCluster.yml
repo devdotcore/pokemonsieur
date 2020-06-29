@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: pokemonsieuracr.azurecr.io
+        username: ${{ secrets.acr_pokemonsieuracr_username }}
+        password: ${{ secrets.acr_pokemonsieuracr_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t pokemonsieuracr.azurecr.io/corekubecluster:${{ github.sha }}
+        docker push pokemonsieuracr.azurecr.io/corekubecluster:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_corekubecluster_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep corekubeclusterdf84 | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace corekubeclusterdf84`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: corekubeclusterdf84
+        container-registry-url: pokemonsieuracr.azurecr.io
+        container-registry-username: ${{ secrets.acr_pokemonsieuracr_username }}
+        container-registry-password: ${{ secrets.acr_pokemonsieuracr_password }}
+        secret-name: corekubeclusdockerauth
+       
+    - uses: azure/k8s-deploy@v1
+      with:
+        namespace: corekubeclusterdf84
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          pokemonsieuracr.azurecr.io/corekubecluster:${{ github.sha }}
+        imagepullsecrets: |
+          corekubeclusdockerauth
