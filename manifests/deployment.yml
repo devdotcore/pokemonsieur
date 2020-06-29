@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: "corekubecluster-1779"
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: "corekubecluster-1779"
+    spec:
+      containers:
+        - name: "corekubecluster-1779"
+          image: "pokemonsieuracr.azurecr.io/corekubecluster"
+          ports:
+          - containerPort: 80
