@@ -1,7 +1,8 @@
-## Pokemonsieur API [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://circleci.com/gh/devdotcore/pokemonsieur)
+## Pokemonsieur API [![Pokemonsieur](https://circleci.com/gh/devdotcore/pokemonsieur.svg?style=svg)](https://circleci.com/gh/devdotcore/pokemonsieur) [![Build Status](https://dev.azure.com/devcore-org/Pokemonsieur/_apis/build/status/pokemonsieur%20-%20CI?branchName=master)](https://dev.azure.com/devcore-org/Pokemonsieur/_build/latest?definitionId=8&branchName=master)
 
 ![Last Build](https://github.com/devdotcore/pokemonsieur/workflows/.NET%20Core/badge.svg?branch=develop)
 ![Docker Build](https://github.com/devdotcore/pokemonsieur/workflows/Docker%20Build/badge.svg)
+
 
 The purpose of this API is to get the Shakespearean pokemon description. Pokemon details from are fetched from [Pokemon Api](https://pokeapi.co/) by passing a [Pokemon_Name] and translation of its description is done using [Fun Translation Api](https://funtranslations.com/shakespeare).
 
