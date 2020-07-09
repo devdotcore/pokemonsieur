@@ -18,6 +18,7 @@ jobs:
           - run:
               name: Archive Docker image
               command: docker save -o image.tar $IMAGE_NAME
+          - sonarcloud/scan
           - persist_to_workspace:
               root: .
               paths:
@@ -36,11 +37,14 @@ jobs:
               command: |
                 echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
                 docker push $IMAGE_NAME:latest
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 workflows:
       version: 2
       build-master:
         jobs:
           - build:
+              context: SonarCloud
               filters:
                 branches:
                   only: master
