@@ -3,8 +3,7 @@
 ![Last Build](https://github.com/devdotcore/pokemonsieur/workflows/.NET%20Core/badge.svg?branch=develop)
 ![Docker Build](https://github.com/devdotcore/pokemonsieur/workflows/Docker%20Build/badge.svg)
 
-
-![Home Page](https://coredev.online)
+[Home Page](https://coredev.online/)
 
 The purpose of this API is to get the Shakespearean pokemon description. Pokemon details from are fetched from [Pokemon Api](https://pokeapi.co/) by passing a [Pokemon_Name] and translation of its description is done using [Fun Translation Api](https://funtranslations.com/shakespeare).
 
